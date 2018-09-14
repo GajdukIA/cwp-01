@@ -49,3 +49,24 @@ function createFile() {
         console.log('file summary.js is created succesfully!');
     });
 }
+
+function getCopyright() {
+
+    fs.readFile("config.json", (err, data) => {
+        if (err) {
+            console.log("error in config.json")
+            copyright = 'null';
+        }
+        else {
+            let extraData = JSON.parse(data);
+            copyright = extraData['copyright'];
+        }
+    });
+}
+
+function addCopyright(path, data) {
+    let text = copyright + data + copyright;
+    fs.writeFile(path, text, (err) => {
+        if (err) throw err;
+    });
+}
