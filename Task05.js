@@ -21,3 +21,31 @@ let script =    "const path = require('path'); \n" +
     "} \n" +
     "}) \n" +
     "})(__dirname); \n";
+
+let copyright;
+(() => {
+    if (dir != undefined) {
+        fs.access(dir, (err) => {
+            if(err) {
+                console.log('error in path');
+            } else {
+                createFile();
+                let insDir = createDir(dir);
+                getCopyright();
+                copyTXT(dir, insDir);
+                console.log('insDir = ' + insDir);
+                watchingFiles(insDir);
+            }
+        })
+    } else {
+        console.log("Type the path");
+    }
+
+})();
+
+function createFile() {
+    fs.writeFile(dir + path.sep + 'summary.js', script, (err) => {
+        if(err) throw err;
+        console.log('file summary.js is created succesfully!');
+    });
+}
