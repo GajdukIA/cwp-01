@@ -78,3 +78,34 @@ function createDir(dir) {
         console.log('created directory');
     });
     return insDir;
+}
+
+function watchingFiles(path) {
+    fs.watch(path, (eventType, filename) => {
+        if (filename) {
+            console.log(filename.toString());
+        }
+    })
+}
+
+function copyTXT(dir, newDir) {
+    fs.readdir(dir, (err, files) => {
+        if (err) throw err;
+        for (let file in files) {
+            let currentFile = dir + path.sep + files[file];
+            fs.stat(currentFile, (err, stats) => {
+                if(err) throw err;
+                if(stats.isDirectory()) {
+                    copyTXT(currentFile, newDir);
+                } else {
+                    if(path.extname(currentFile) === '.txt') {
+                        fs.readFile(currentFile, (err, data) => {
+                            if(err) throw err;
+                            addCopyright(newDir + path.sep + files[file], data);
+                        });
+                    }
+                }
+            })
+        }
+    })
+}
