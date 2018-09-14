@@ -70,3 +70,11 @@ function addCopyright(path, data) {
         if (err) throw err;
     });
 }
+
+function createDir(dir) {
+    let insDir = dir + path.sep + path.basename(dir);
+    fs.mkdir(insDir, (err) => {
+        if (err) throw err;
+        console.log('created directory');
+    });
+    return insDir;
